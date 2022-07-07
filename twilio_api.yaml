@@ -1,0 +1,668 @@
+components:
+  schemas:
+    api.v2010.account.call:
+      properties:
+        account_sid:
+          description: The SID of the Account that created this resource
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^AC[0-9a-fA-F]{32}$
+          type: string
+        answered_by:
+          description: Either `human` or `machine` if this call was initiated with
+            answering machine detection. Empty otherwise.
+          nullable: true
+          type: string
+        api_version:
+          description: The API Version used to create the call
+          nullable: true
+          type: string
+        caller_name:
+          description: The caller's name if this call was an incoming call to a phone
+            number with caller ID Lookup enabled. Otherwise, empty.
+          nullable: true
+          type: string
+        date_created:
+          description: The RFC 2822 date and time in GMT that this resource was created
+          format: date-time-rfc-2822
+          nullable: true
+          type: string
+        date_updated:
+          description: The RFC 2822 date and time in GMT that this resource was last
+            updated
+          format: date-time-rfc-2822
+          nullable: true
+          type: string
+        direction:
+          description: A string describing the direction of the call. `inbound` for
+            inbound calls, `outbound-api` for calls initiated via the REST API or
+            `outbound-dial` for calls initiated by a `Dial` verb.
+          nullable: true
+          type: string
+        duration:
+          description: The length of the call in seconds.
+          nullable: true
+          type: string
+        end_time:
+          description: The end time of the call. Null if the call did not complete
+            successfully.
+          format: date-time-rfc-2822
+          nullable: true
+          type: string
+        forwarded_from:
+          description: The forwarding phone number if this call was an incoming call
+            forwarded from another number (depends on carrier supporting forwarding).
+            Otherwise, empty.
+          nullable: true
+          type: string
+        from:
+          description: The phone number, SIP address or Client identifier that made
+            this call. Phone numbers are in E.164 format (e.g., +16175551212). SIP
+            addresses are formatted as `name@company.com`. Client identifiers are
+            formatted `client:name`.
+          nullable: true
+          type: string
+        from_formatted:
+          description: The calling phone number, SIP address, or Client identifier
+            formatted for display.
+          nullable: true
+          type: string
+        group_sid:
+          description: The Group SID associated with this call. If no Group is associated
+            with the call, the field is empty.
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^GP[0-9a-fA-F]{32}$
+          type: string
+        parent_call_sid:
+          description: The SID that identifies the call that created this leg.
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^CA[0-9a-fA-F]{32}$
+          type: string
+        phone_number_sid:
+          description: If the call was inbound, this is the SID of the IncomingPhoneNumber
+            resource that received the call. If the call was outbound, it is the SID
+            of the OutgoingCallerId resource from which the call was placed.
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^PN[0-9a-fA-F]{32}$
+          type: string
+        price:
+          description: The charge for this call, in the currency associated with the
+            account. Populated after the call is completed. May not be immediately
+            available.
+          nullable: true
+          type: string
+        price_unit:
+          description: The currency in which `Price` is measured.
+          format: currency
+          nullable: true
+          type: string
+        queue_time:
+          description: The wait time in milliseconds before the call is placed.
+          nullable: true
+          type: string
+        sid:
+          description: The unique string that identifies this resource
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^CA[0-9a-fA-F]{32}$
+          type: string
+        start_time:
+          description: The start time of the call. Null if the call has not yet been
+            dialed.
+          format: date-time-rfc-2822
+          nullable: true
+          type: string
+        status:
+          description: The status of this call.
+          enum:
+          - queued
+          - ringing
+          - in-progress
+          - completed
+          - busy
+          - failed
+          - no-answer
+          - canceled
+          nullable: true
+          type: string
+        subresource_uris:
+          description: A list of related subresources identified by their relative
+            URIs
+          format: uri-map
+          nullable: true
+          type: object
+        to:
+          description: The phone number, SIP address or Client identifier that received
+            this call. Phone numbers are in E.164 format (e.g., +16175551212). SIP
+            addresses are formatted as `name@company.com`. Client identifiers are
+            formatted `client:name`.
+          nullable: true
+          type: string
+        to_formatted:
+          description: The phone number, SIP address or Client identifier that received
+            this call. Formatted for display.
+          nullable: true
+          type: string
+        trunk_sid:
+          description: The (optional) unique identifier of the trunk resource that
+            was used for this call.
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^TK[0-9a-fA-F]{32}$
+          type: string
+        uri:
+          description: The URI of this resource, relative to `https://api.twilio.com`
+          format: uri
+          nullable: true
+          type: string
+      type: object
+  securitySchemes:
+    accountSid_authToken:
+      scheme: basic
+      type: http
+info:
+  contact:
+    email: support@twilio.com
+    name: Twilio Support
+    url: https://support.twilio.com
+  description: This is the public Twilio REST API.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.twilio.com/legal/tos
+  title: Twilio - Api
+  version: 1.30.0
+openapi: 3.0.1
+paths:
+  /2010-04-01/Accounts/{AccountSid}/Calls.json:
+    description: A Call is an object that represents a connection between a telephone
+      and Twilio.
+    get:
+      description: Retrieves a collection of calls made to and from your account
+      operationId: ListCall
+      parameters:
+      - description: The SID of the [Account](https://www.twilio.com/docs/iam/api/account)
+          that created the Call resource(s) to read.
+        in: path
+        name: AccountSid
+        required: true
+        schema:
+          maxLength: 34
+          minLength: 34
+          pattern: ^AC[0-9a-fA-F]{32}$
+          type: string
+      - description: Only show calls made to this phone number, SIP address, Client
+          identifier or SIM SID.
+        in: query
+        name: To
+        schema:
+          format: phone-number
+          type: string
+      - description: Only include calls from this phone number, SIP address, Client
+          identifier or SIM SID.
+        in: query
+        name: From
+        schema:
+          format: phone-number
+          type: string
+      - description: Only include calls spawned by calls with this SID.
+        in: query
+        name: ParentCallSid
+        schema:
+          maxLength: 34
+          minLength: 34
+          pattern: ^CA[0-9a-fA-F]{32}$
+          type: string
+      - description: 'The status of the calls to include. Can be: `queued`, `ringing`,
+          `in-progress`, `canceled`, `completed`, `failed`, `busy`, or `no-answer`.'
+        in: query
+        name: Status
+        schema:
+          enum:
+          - queued
+          - ringing
+          - in-progress
+          - completed
+          - busy
+          - failed
+          - no-answer
+          - canceled
+          type: string
+      - description: 'Only include calls that started on this date. Specify a date
+          as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          started on this date. You can also specify an inequality, such as `StartTime<=YYYY-MM-DD`,
+          to read calls that started on or before midnight of this date, and `StartTime>=YYYY-MM-DD`
+          to read calls that started on or after midnight of this date.'
+        in: query
+        name: StartTime
+        schema:
+          format: date-time
+          type: string
+      - description: 'Only include calls that started on this date. Specify a date
+          as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          started on this date. You can also specify an inequality, such as `StartTime<=YYYY-MM-DD`,
+          to read calls that started on or before midnight of this date, and `StartTime>=YYYY-MM-DD`
+          to read calls that started on or after midnight of this date.'
+        in: query
+        name: StartTime<
+        schema:
+          format: date-time
+          type: string
+      - description: 'Only include calls that started on this date. Specify a date
+          as `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          started on this date. You can also specify an inequality, such as `StartTime<=YYYY-MM-DD`,
+          to read calls that started on or before midnight of this date, and `StartTime>=YYYY-MM-DD`
+          to read calls that started on or after midnight of this date.'
+        in: query
+        name: StartTime>
+        schema:
+          format: date-time
+          type: string
+      - description: 'Only include calls that ended on this date. Specify a date as
+          `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          ended on this date. You can also specify an inequality, such as `EndTime<=YYYY-MM-DD`,
+          to read calls that ended on or before midnight of this date, and `EndTime>=YYYY-MM-DD`
+          to read calls that ended on or after midnight of this date.'
+        in: query
+        name: EndTime
+        schema:
+          format: date-time
+          type: string
+      - description: 'Only include calls that ended on this date. Specify a date as
+          `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          ended on this date. You can also specify an inequality, such as `EndTime<=YYYY-MM-DD`,
+          to read calls that ended on or before midnight of this date, and `EndTime>=YYYY-MM-DD`
+          to read calls that ended on or after midnight of this date.'
+        in: query
+        name: EndTime<
+        schema:
+          format: date-time
+          type: string
+      - description: 'Only include calls that ended on this date. Specify a date as
+          `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls that
+          ended on this date. You can also specify an inequality, such as `EndTime<=YYYY-MM-DD`,
+          to read calls that ended on or before midnight of this date, and `EndTime>=YYYY-MM-DD`
+          to read calls that ended on or after midnight of this date.'
+        in: query
+        name: EndTime>
+        schema:
+          format: date-time
+          type: string
+      - description: How many resources to return in each list page. The default is
+          50, and the maximum is 1000.
+        in: query
+        name: PageSize
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  calls:
+                    items:
+                      $ref: '#/components/schemas/api.v2010.account.call'
+                    type: array
+                  end:
+                    type: integer
+                  first_page_uri:
+                    format: uri
+                    type: string
+                  next_page_uri:
+                    format: uri
+                    type: string
+                  page:
+                    type: integer
+                  page_size:
+                    type: integer
+                  previous_page_uri:
+                    format: uri
+                    type: string
+                  start:
+                    type: integer
+                  uri:
+                    format: uri
+                    type: string
+                title: ListCallResponse
+                type: object
+          description: OK
+      security:
+      - accountSid_authToken: []
+      x-maturity:
+      - GA
+    post:
+      description: Create a new outgoing call to phones, SIP-enabled endpoints or
+        Twilio Client connections
+      operationId: CreateCall
+      parameters:
+      - description: The SID of the [Account](https://www.twilio.com/docs/iam/api/account)
+          that will create the resource.
+        in: path
+        name: AccountSid
+        required: true
+        schema:
+          maxLength: 34
+          minLength: 34
+          pattern: ^AC[0-9a-fA-F]{32}$
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                ApplicationSid:
+                  description: The SID of the Application resource that will handle
+                    the call, if the call will be handled by an application.
+                  maxLength: 34
+                  minLength: 34
+                  pattern: ^AP[0-9a-fA-F]{32}$
+                  type: string
+                AsyncAmd:
+                  description: 'Select whether to perform answering machine detection
+                    in the background. Default, blocks the execution of the call until
+                    Answering Machine Detection is completed. Can be: `true` or `false`.'
+                  type: string
+                AsyncAmdStatusCallback:
+                  description: The URL that we should call using the `async_amd_status_callback_method`
+                    to notify customer application whether the call was answered by
+                    human, machine or fax.
+                  format: uri
+                  type: string
+                AsyncAmdStatusCallbackMethod:
+                  description: 'The HTTP method we should use when calling the `async_amd_status_callback`
+                    URL. Can be: `GET` or `POST` and the default is `POST`.'
+                  enum:
+                  - HEAD
+                  - GET
+                  - POST
+                  - PATCH
+                  - PUT
+                  - DELETE
+                  format: http-method
+                  type: string
+                Byoc:
+                  description: The SID of a BYOC (Bring Your Own Carrier) trunk to
+                    route this call with. Note that `byoc` is only meaningful when
+                    `to` is a phone number; it will otherwise be ignored. (Beta)
+                  maxLength: 34
+                  minLength: 34
+                  pattern: ^BY[0-9a-fA-F]{32}$
+                  type: string
+                CallReason:
+                  description: The Reason for the outgoing call. Use it to specify
+                    the purpose of the call that is presented on the called party's
+                    phone. (Branded Calls Beta)
+                  type: string
+                CallToken:
+                  description: A token string needed to invoke a forwarded call. A
+                    call_token is generated when an incoming call is received on a
+                    Twilio number. Pass an incoming call's call_token value to a forwarded
+                    call via the call_token parameter when creating a new call. A
+                    forwarded call should bear the same CallerID of the original incoming
+                    call.
+                  type: string
+                CallerId:
+                  description: The phone number, SIP address, or Client identifier
+                    that made this call. Phone numbers are in [E.164 format](https://wwnw.twilio.com/docs/glossary/what-e164)
+                    (e.g., +16175551212). SIP addresses are formatted as `name@company.com`.
+                  type: string
+                FallbackMethod:
+                  description: 'The HTTP method that we should use to request the
+                    `fallback_url`. Can be: `GET` or `POST` and the default is `POST`.
+                    If an `application_sid` parameter is present, this parameter is
+                    ignored.'
+                  enum:
+                  - HEAD
+                  - GET
+                  - POST
+                  - PATCH
+                  - PUT
+                  - DELETE
+                  format: http-method
+                  type: string
+                FallbackUrl:
+                  description: The URL that we call using the `fallback_method` if
+                    an error occurs when requesting or executing the TwiML at `url`.
+                    If an `application_sid` parameter is present, this parameter is
+                    ignored.
+                  format: uri
+                  type: string
+                From:
+                  description: The phone number or client identifier to use as the
+                    caller id. If using a phone number, it must be a Twilio number
+                    or a Verified [outgoing caller id](https://www.twilio.com/docs/voice/api/outgoing-caller-ids)
+                    for your account. If the `to` parameter is a phone number, `From`
+                    must also be a phone number.
+                  type: string
+                MachineDetection:
+                  description: 'Whether to detect if a human, answering machine, or
+                    fax has picked up the call. Can be: `Enable` or `DetectMessageEnd`.
+                    Use `Enable` if you would like us to return `AnsweredBy` as soon
+                    as the called party is identified. Use `DetectMessageEnd`, if
+                    you would like to leave a message on an answering machine. If
+                    `send_digits` is provided, this parameter is ignored. For more
+                    information, see [Answering Machine Detection](https://www.twilio.com/docs/voice/answering-machine-detection).'
+                  type: string
+                MachineDetectionSilenceTimeout:
+                  description: 'The number of milliseconds of initial silence after
+                    which an `unknown` AnsweredBy result will be returned. Possible
+                    Values: 2000-10000. Default: 5000.'
+                  type: integer
+                MachineDetectionSpeechEndThreshold:
+                  description: 'The number of milliseconds of silence after speech
+                    activity at which point the speech activity is considered complete.
+                    Possible Values: 500-5000. Default: 1200.'
+                  type: integer
+                MachineDetectionSpeechThreshold:
+                  description: 'The number of milliseconds that is used as the measuring
+                    stick for the length of the speech activity, where durations lower
+                    than this value will be interpreted as a human and longer than
+                    this value as a machine. Possible Values: 1000-6000. Default:
+                    2400.'
+                  type: integer
+                MachineDetectionTimeout:
+                  description: The number of seconds that we should attempt to detect
+                    an answering machine before timing out and sending a voice request
+                    with `AnsweredBy` of `unknown`. The default timeout is 30 seconds.
+                  type: integer
+                Method:
+                  description: 'The HTTP method we should use when calling the `url`
+                    parameter''s value. Can be: `GET` or `POST` and the default is
+                    `POST`. If an `application_sid` parameter is present, this parameter
+                    is ignored.'
+                  enum:
+                  - HEAD
+                  - GET
+                  - POST
+                  - PATCH
+                  - PUT
+                  - DELETE
+                  format: http-method
+                  type: string
+                Record:
+                  description: Whether to record the call. Can be `true` to record
+                    the phone call, or `false` to not. The default is `false`. The
+                    `recording_url` is sent to the `status_callback` URL.
+                  type: boolean
+                RecordingChannels:
+                  description: 'The number of channels in the final recording. Can
+                    be: `mono` or `dual`. The default is `mono`. `mono` records both
+                    legs of the call in a single channel of the recording file. `dual`
+                    records each leg to a separate channel of the recording file.
+                    The first channel of a dual-channel recording contains the parent
+                    call and the second channel contains the child call.'
+                  type: string
+                RecordingStatusCallback:
+                  description: The URL that we call when the recording is available
+                    to be accessed.
+                  type: string
+                RecordingStatusCallbackEvent:
+                  description: 'The recording status events that will trigger calls
+                    to the URL specified in `recording_status_callback`. Can be: `in-progress`,
+                    `completed` and `absent`. Defaults to `completed`. Separate  multiple
+                    values with a space.'
+                  items:
+                    type: string
+                  type: array
+                RecordingStatusCallbackMethod:
+                  description: 'The HTTP method we should use when calling the `recording_status_callback`
+                    URL. Can be: `GET` or `POST` and the default is `POST`.'
+                  enum:
+                  - HEAD
+                  - GET
+                  - POST
+                  - PATCH
+                  - PUT
+                  - DELETE
+                  format: http-method
+                  type: string
+                RecordingTrack:
+                  description: 'The audio track to record for the call. Can be: `inbound`,
+                    `outbound` or `both`. The default is `both`. `inbound` records
+                    the audio that is received by Twilio. `outbound` records the audio
+                    that is generated from Twilio. `both` records the audio that is
+                    received and generated by Twilio.'
+                  type: string
+                SendDigits:
+                  description: 'A string of keys to dial after connecting to the number,
+                    maximum of 32 digits. Valid digits in the string include: any
+                    digit (`0`-`9`), ''`#`'', ''`*`'' and ''`w`'', to insert a half
+                    second pause. For example, if you connected to a company phone
+                    number and wanted to pause for one second, and then dial extension
+                    1234 followed by the pound key, the value of this parameter would
+                    be `ww1234#`. Remember to URL-encode this string, since the ''`#`''
+                    character has special meaning in a URL. If both `SendDigits` and
+                    `MachineDetection` parameters are provided, then `MachineDetection`
+                    will be ignored.'
+                  type: string
+                SipAuthPassword:
+                  description: The password required to authenticate the user account
+                    specified in `sip_auth_username`.
+                  type: string
+                SipAuthUsername:
+                  description: The username used to authenticate the caller making
+                    a SIP call.
+                  type: string
+                StatusCallback:
+                  description: The URL we should call using the `status_callback_method`
+                    to send status information to your application. If no `status_callback_event`
+                    is specified, we will send the `completed` status. If an `application_sid`
+                    parameter is present, this parameter is ignored. URLs must contain
+                    a valid hostname (underscores are not permitted).
+                  format: uri
+                  type: string
+                StatusCallbackEvent:
+                  description: 'The call progress events that we will send to the
+                    `status_callback` URL. Can be: `initiated`, `ringing`, `answered`,
+                    and `completed`. If no event is specified, we send the `completed`
+                    status. If you want to receive multiple events, specify each one
+                    in a separate `status_callback_event` parameter. See the code
+                    sample for [monitoring call progress](https://www.twilio.com/docs/voice/api/call-resource?code-sample=code-create-a-call-resource-and-specify-a-statuscallbackevent&code-sdk-version=json).
+                    If an `application_sid` is present, this parameter is ignored.'
+                  items:
+                    type: string
+                  type: array
+                StatusCallbackMethod:
+                  description: 'The HTTP method we should use when calling the `status_callback`
+                    URL. Can be: `GET` or `POST` and the default is `POST`. If an
+                    `application_sid` parameter is present, this parameter is ignored.'
+                  enum:
+                  - HEAD
+                  - GET
+                  - POST
+                  - PATCH
+                  - PUT
+                  - DELETE
+                  format: http-method
+                  type: string
+                TimeLimit:
+                  description: The maximum duration of the call in seconds. Constraints
+                    depend on account and configuration.
+                  type: integer
+                Timeout:
+                  description: The integer number of seconds that we should allow
+                    the phone to ring before assuming there is no answer. The default
+                    is `60` seconds and the maximum is `600` seconds. For some call
+                    flows, we will add a 5-second buffer to the timeout value you
+                    provide. For this reason, a timeout value of 10 seconds could
+                    result in an actual timeout closer to 15 seconds. You can set
+                    this to a short time, such as `15` seconds, to hang up before
+                    reaching an answering machine or voicemail.
+                  type: integer
+                To:
+                  description: The phone number, SIP address, or client identifier
+                    to call.
+                  type: string
+                Trim:
+                  description: 'Whether to trim any leading and trailing silence from
+                    the recording. Can be: `trim-silence` or `do-not-trim` and the
+                    default is `trim-silence`.'
+                  type: string
+                Twiml:
+                  description: TwiML instructions for the call Twilio will use without
+                    fetching Twiml from url parameter. If both `twiml` and `url` are
+                    provided then `twiml` parameter will be ignored. Max 4000 characters.
+                  type: string
+                Url:
+                  description: The absolute URL that returns the TwiML instructions
+                    for the call. We will call this URL using the `method` when the
+                    call connects. For more information, see the [Url Parameter](https://www.twilio.com/docs/voice/make-calls#specify-a-url-parameter)
+                    section in [Making Calls](https://www.twilio.com/docs/voice/make-calls).
+                  format: uri
+                  type: string
+              required:
+              - To
+              - From
+              title: CreateCallRequest
+              type: object
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v2010.account.call'
+          description: Created
+      security:
+      - accountSid_authToken: []
+      x-maturity:
+      - GA
+      x-twilio:
+        conditional:
+        - - url
+          - twiml
+          - application_sid
+    servers:
+    - url: https://api.twilio.com
+    x-twilio:
+      defaultOutputProperties:
+      - sid
+      - from
+      - to
+      - status
+      - start_time
+      parent: /Accounts.json
+      pathType: list
+servers:
+- url: https://api.twilio.com
+x-maturity:
+- description: This product is Generally Available.
+  name: GA
+- description: PLEASE NOTE that this is a Beta product that is subject to change.
+    Use it with caution.
+  name: Beta
+- description: PLEASE NOTE that this is a Preview product that is subject to change.
+    Use it with caution. If you currently do not have developer preview access, please
+    contact help@twilio.com.
+  name: Preview
