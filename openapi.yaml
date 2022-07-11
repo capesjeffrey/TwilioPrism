@@ -635,11 +635,12 @@ paths:
                 $ref: '#/components/schemas/api.v2010.account.call'
           description: Created
         '400':
-          description: 'Failed to complete request due to a bad request'
+          description: Bad Request -
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: '#/components/schemas/api.v2010.account.call'
+                type: string 
+                example: 'Failed to complete request due to a bad request'
       security:
       - accountSid_authToken: []
       x-maturity:
