@@ -1,0 +1,381 @@
+components:
+  schemas:
+    api.v2010.account.call:
+      type: object
+      properties:
+        account_sid:
+          description: The SID of the Account that created this resource
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^AC[0-9a-fA-F]{32}$
+          type: string
+        from:
+          description: >-
+            The phone number, SIP address or Client identifier that made this
+            call. Phone numbers are in E.164 format (e.g., +16175551212). SIP
+            addresses are formatted as `name@company.com`. Client identifiers
+            are formatted `client:name`.
+          nullable: true
+          type: string
+        sid:
+          description: The unique string that identifies this resource
+          maxLength: 34
+          minLength: 34
+          nullable: true
+          pattern: ^CA[0-9a-fA-F]{32}$
+          type: string
+        status:
+          description: The status of this call.
+          enum:
+            - queued
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
+          nullable: true
+          type: string
+        to:
+          description: >-
+            The phone number, SIP address or Client identifier that received
+            this call. Phone numbers are in E.164 format (e.g., +16175551212).
+            SIP addresses are formatted as `name@company.com`. Client
+            identifiers are formatted `client:name`.
+          nullable: true
+          type: string
+        uri:
+          description: The URI of this resource, relative to `https://api.twilio.com`
+          format: uri
+          nullable: true
+          type: string
+  securitySchemes:
+    accountSid_authToken:
+      scheme: basic
+      type: http
+info:
+  contact:
+    email: support@twilio.com
+    name: Twilio Support
+    url: https://support.twilio.com
+  description: This is the public Twilio REST API.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.twilio.com/legal/tos
+  title: Twilio - Api
+  version: 1.30.0
+openapi: 3.0.1
+paths:
+  /2010-04-01/Accounts/{AccountSid}/Calls.json/:
+    description: >-
+      A Call is an object that represents a connection between a telephone and
+      Twilio.
+    get:
+      description: Retrieves a collection of calls made to and from your account
+      operationId: ListCall
+      parameters:
+        - description: >-
+            The SID of the
+            [Account](https://www.twilio.com/docs/iam/api/account) that created
+            the Call resource(s) to read.
+          in: path
+          name: AccountSid
+          required: true
+          schema:
+            maxLength: 34
+            minLength: 34
+            pattern: ^AC[0-9a-fA-F]{32}$
+            type: string
+        - description: >-
+            Only show calls made to this phone number, SIP address, Client
+            identifier or SIM SID.
+          in: query
+          name: To
+          schema:
+            format: phone-number
+            type: string
+        - description: >-
+            Only include calls from this phone number, SIP address, Client
+            identifier or SIM SID.
+          in: query
+          name: From
+          schema:
+            format: phone-number
+            type: string
+        - description: Only include calls spawned by calls with this SID.
+          in: query
+          name: ParentCallSid
+          schema:
+            maxLength: 34
+            minLength: 34
+            pattern: ^CA[0-9a-fA-F]{32}$
+            type: string
+        - description: >-
+            The status of the calls to include. Can be: `queued`, `ringing`,
+            `in-progress`, `canceled`, `completed`, `failed`, `busy`, or
+            `no-answer`.
+          in: query
+          name: Status
+          schema:
+            enum:
+              - queued
+              - ringing
+              - in-progress
+              - completed
+              - busy
+              - failed
+              - no-answer
+              - canceled
+            type: string
+        - description: >-
+            Only include calls that started on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that started on this date. You can also specify an inequality, such
+            as `StartTime<=YYYY-MM-DD`, to read calls that started on or before
+            midnight of this date, and `StartTime>=YYYY-MM-DD` to read calls
+            that started on or after midnight of this date.
+          in: query
+          name: StartTime
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            Only include calls that started on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that started on this date. You can also specify an inequality, such
+            as `StartTime<=YYYY-MM-DD`, to read calls that started on or before
+            midnight of this date, and `StartTime>=YYYY-MM-DD` to read calls
+            that started on or after midnight of this date.
+          in: query
+          name: StartTime<
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            Only include calls that started on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that started on this date. You can also specify an inequality, such
+            as `StartTime<=YYYY-MM-DD`, to read calls that started on or before
+            midnight of this date, and `StartTime>=YYYY-MM-DD` to read calls
+            that started on or after midnight of this date.
+          in: query
+          name: StartTime>
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            Only include calls that ended on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that ended on this date. You can also specify an inequality, such as
+            `EndTime<=YYYY-MM-DD`, to read calls that ended on or before
+            midnight of this date, and `EndTime>=YYYY-MM-DD` to read calls that
+            ended on or after midnight of this date.
+          in: query
+          name: EndTime
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            Only include calls that ended on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that ended on this date. You can also specify an inequality, such as
+            `EndTime<=YYYY-MM-DD`, to read calls that ended on or before
+            midnight of this date, and `EndTime>=YYYY-MM-DD` to read calls that
+            ended on or after midnight of this date.
+          in: query
+          name: EndTime<
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            Only include calls that ended on this date. Specify a date as
+            `YYYY-MM-DD` in GMT, for example: `2009-07-06`, to read only calls
+            that ended on this date. You can also specify an inequality, such as
+            `EndTime<=YYYY-MM-DD`, to read calls that ended on or before
+            midnight of this date, and `EndTime>=YYYY-MM-DD` to read calls that
+            ended on or after midnight of this date.
+          in: query
+          name: EndTime>
+          schema:
+            format: date-time
+            type: string
+        - description: >-
+            How many resources to return in each list page. The default is 50,
+            and the maximum is 1000.
+          in: query
+          name: PageSize
+          schema:
+            maximum: 1000
+            minimum: 1
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  calls:
+                    items:
+                      $ref: '#/components/schemas/api.v2010.account.call'
+                    type: array
+                  end:
+                    type: integer
+                  first_page_uri:
+                    format: uri
+                    type: string
+                  next_page_uri:
+                    format: uri
+                    type: string
+                  page:
+                    type: integer
+                  page_size:
+                    type: integer
+                  previous_page_uri:
+                    format: uri
+                    type: string
+                  start:
+                    type: integer
+                  uri:
+                    format: uri
+                    type: string
+                title: ListCallResponse
+                type: object
+          description: OK
+      security:
+        - accountSid_authToken: []
+      x-maturity:
+        - GA
+    post:
+      description: >-
+        Create a new outgoing call to phones, SIP-enabled endpoints or Twilio
+        Client connections
+      operationId: CreateCall
+      parameters:
+        - description: >-
+            The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+          in: path
+          name: AccountSid
+          required: true
+          schema:
+            maxLength: 34
+            minLength: 34
+            pattern: ^AC[0-9a-fA-F]{32}$
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                ApplicationSid:
+                  description: >-
+                    The SID of the Application resource that will handle the
+                    call, if the call will be handled by an application.
+                  maxLength: 34
+                  minLength: 34
+                  pattern: ^AP[0-9a-fA-F]{32}$
+                  type: string
+                From:
+                  description: >-
+                    The phone number or client identifier to use as the caller
+                    id. If using a phone number, it must be a Twilio number or a
+                    Verified [outgoing caller
+                    id](https://www.twilio.com/docs/voice/api/outgoing-caller-ids)
+                    for your account. If the `to` parameter is a phone number,
+                    `From` must also be a phone number.
+                  type: string
+                To:
+                  description: The phone number, SIP address, or client identifier to call.
+                  type: string
+                Twiml:
+                  description: >-
+                    TwiML instructions for the call Twilio will use without
+                    fetching Twiml from url parameter. If both `twiml` and `url`
+                    are provided then `twiml` parameter will be ignored. Max
+                    4000 characters.
+                  type: string
+                Url:
+                  description: >-
+                    The absolute URL that returns the TwiML instructions for the
+                    call. We will call this URL using the `method` when the call
+                    connects. For more information, see the [Url
+                    Parameter](https://www.twilio.com/docs/voice/make-calls#specify-a-url-parameter)
+                    section in [Making
+                    Calls](https://www.twilio.com/docs/voice/make-calls).
+                  format: uri
+                  type: string
+              required:
+                - To
+                - From
+              title: CreateCallRequest
+              type: object
+      responses:
+        '201':
+          description: Successful Call
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.v2010.account.call'
+              examples:
+                '001':
+                  value: Success
+        '400':
+          description: Failed to complete request due to a bad request.
+          content:
+            application/json:
+              examples:
+                '002':
+                  value:
+                    errorCode: 11750
+                    message: "TwiML response body too large."
+                '003':
+                  value:
+                    errorCode: 21205
+                    message: "Url parameter is required."
+        '404':
+          description: Failed to find a match for the request.
+          content: {}
+        '410':
+          description: >-
+            Access to this resource is no longer available and should not be
+            retried.
+          content: {}
+        '503':
+          description: An internal error has occurred while processing the request.
+          content: {}
+      security:
+        - accountSid_authToken: []
+      x-maturity:
+        - GA
+      x-twilio:
+        conditional:
+          - - url
+            - twiml
+            - application_sid
+    servers:
+      - url: https://api.twilio.com
+    x-twilio:
+      defaultOutputProperties:
+        - sid
+        - from
+        - to
+        - status
+        - start_time
+      parent: /Accounts.json
+      pathType: list
+servers:
+  - url: https://api.twilio.com
+x-maturity:
+  - description: This product is Generally Available.
+    name: GA
+  - description: >-
+      PLEASE NOTE that this is a Beta product that is subject to change. Use it
+      with caution.
+    name: Beta
+  - description: >-
+      PLEASE NOTE that this is a Preview product that is subject to change. Use
+      it with caution. If you currently do not have developer preview access,
+      please contact help@twilio.com.
+    name: Preview
