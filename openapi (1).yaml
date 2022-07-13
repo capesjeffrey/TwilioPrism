@@ -255,7 +255,9 @@ paths:
       operationId: CreateCall
       parameters:
         - description: >-
-            The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that will create the resource.
+            The SID of the
+            [Account](https://www.twilio.com/docs/iam/api/account) that will
+            create the resource.
           in: path
           name: AccountSid
           required: true
@@ -320,281 +322,110 @@ paths:
                 $ref: '#/components/schemas/api.v2010.account.call'
               examples:
                 '00':
-                  message: "OK" 
-        'errors':
-          description: Generic and Programmable voice error codes.
+                  value:
+                    message: OK
+        '400':
+          description: Generic and Programmable Voice errors.
           content:
             application/json:
               examples:
-                '02':
-                  value:
-                    errorCode: 11750
-                    message: "TwiML response body too large."
-                '03':
-                  value:
-                    errorCode: 12102
-                    message: "The root element must be Response."
-                '04':
-                  value:
-                    errorCode: 21210
-                    message: "'From' phone number not verified."
-                '05':
-                  value:
-                    errorCode: 21211 
-                    message: "Invalid 'To' Phone Number."
-                '06':
-                  value:
-                    errorCode: 21212
-                    message: "Invalid From Number (caller ID)."
-                '07':
-                  value:
-                    errorCode: 21213
-                    message: "Caller phone number is required."
-                '08':
-                  value:
-                    errorCode: 21214
-                    message: "'To' phone number cannot be reached."
-                '09':
-                  value:
-                    errorCode: 21217 
-                    message: "Phone number does not appear to be valid."
                 '10':
                   value:
                     errorCode: 21218
-                    message: "Invalid ApplicationSid."
+                    message: 'Invalid ApplicationSid.'
                 '11':
                   value:
                     errorCode: 21219
-                    message: "'To' phone number not verified."
+                    message: 'To phone number not verified.'
                 '12':
                   value:
                     errorCode: 21220
-                    message: "Invalid call state."
+                    message: 'Invalid call state.'
                 '13':
                   value:
-                    errorCode: 13257 
-                    message: "Invalid transcribeCallback URL."
+                    errorCode: 13257
+                    message: 'Invalid transcribeCallback URL.'
                 '14':
                   value:
-                    errorCode: 13337 
-                    message: "Gather: callback must be over HTTPS when using gather with PCI compliance."
+                    errorCode: 13337
+                    message: >-
+                      Gather: callback must be over HTTPS when using gather with
+                      PCI compliance.
                 '15':
                   value:
-                    errorCode: 13338  
-                    message: "Gather: Invalid actionOnEmptyResult value."
+                    errorCode: 13338
+                    message: 'Gather: Invalid actionOnEmptyResult value.'
                 '16':
                   value:
-                    errorCode: 13340   
-                    message: "Gather: Degraded Speech."
+                    errorCode: 13340
+                    message: 'Gather: Degraded Speech.'
                 '17':
                   value:
-                    errorCode: 13750 
-                    message: "Twiml verb not supported by this API version."
+                    errorCode: 13750
+                    message: 'Twiml verb not supported by this API version.'
                 '18':
                   value:
-                    errorCode: 13801  
-                    message: "Refer not allowed on non-SIP call legs."
+                    errorCode: 13801
+                    message: 'Refer not allowed on non-SIP call legs.'
                 '19':
                   value:
-                    errorCode: 13804  
-                    message: "AddOns are not supported in this realm."
+                    errorCode: 13804
+                    message: 'AddOns are not supported in this realm.'
                 '20':
                   value:
-                    errorCode: 14300  
-                    message: "Start: Invalid nested noun value."
+                    errorCode: 14300
+                    message: 'Start: Invalid nested noun value.'
                 '21':
                   value:
-                    errorCode: 15004  
-                    message: "Action Callback URL must be an absolute URL when using TwiML to update in-progress calls."
+                    errorCode: 15004
+                    message: >-
+                      Action Callback URL must be an absolute URL when using
+                      TwiML to update in-progress calls.
                 '22':
                   value:
                     errorCode: 15009
-                    message: "Internal Server Error"
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-        #         '':
-        #           value:
-        #             errorCode:  
-        #             message: ""
-                
-
-
-
-
-
-        # '404':
-        #   description: Failed to find a match for the request.
-        #   content:
-        #     application/json:
-        #       examples:
-        #         '':
-        #           value:
-        #             errorCode: 
-        #             message: ""
-        # '410':
-        #   description: >-
-        #     Access to this resource is no longer available and should not be
-        #     retried.
-        #   content:
-        #     application/json:
-        #       examples:
-        #         '':
-        #           value:
-        #             errorCode: 
-        #             message: ""
-        # '503':
-        #   description: An internal error has occurred while processing the request.
-        #   content:
-        #     application/json:
-        #       examples:
-        #         
+                    message: 'Internal Server Error'
+                '02':
+                  value:
+                    errorCode: 11750
+                    message: 'TwiML response body too large.'
+                '03':
+                  value:
+                    errorCode: 12102
+                    message: 'The root element must be Response.'
+                '04':
+                  value:
+                    errorCode: 21210
+                    message: '"From" phone number not verified.'
+                '05':
+                  value:
+                    errorCode: 21211
+                    message: 'Invalid "To" Phone Number.'
+                '06':
+                  value:
+                    errorCode: 21212
+                    message: 'Invalid "From" Number (caller ID).'
+                '07':
+                  value:
+                    errorCode: 21213
+                    message: 'Caller phone number is required.'
+                '08':
+                  value:
+                    errorCode: 21214
+                    message: '"To" phone number cannot be reached.'
+                '09':
+                  value:
+                    errorCode: 21217
+                    message: 'Phone number does not appear to be valid.'
       security:
         - accountSid_authToken: []
       x-maturity:
         - GA
       x-twilio:
         conditional:
-          - - url
-            - twiml
-            - application_sid
+        - - url
+          - twiml
+          - application_sid
     servers:
       - url: https://api.twilio.com
     x-twilio:
